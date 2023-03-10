@@ -11,7 +11,6 @@ import java.nio.ByteOrder
 import java.nio.MappedByteBuffer
 import java.nio.channels.FileChannel
 import java.util.*
-import kotlin.Comparator
 
 class ImageClassifier (myContext: Context) {
     private val assetManager: AssetManager = myContext.assets
