@@ -9,7 +9,6 @@ import java.util.ArrayList
 import android.graphics.Bitmap
 import android.content.res.AssetManager
 import org.tensorflow.lite.Interpreter
-import java.io.FileInputStream
 
 class ModelFacade private constructor(context: Context) {
 
