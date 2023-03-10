@@ -49,9 +49,9 @@ class DeleteMealFragment : Fragment(), View.OnClickListener, AdapterView.OnItemS
 		mealIdTextField = root.findViewById(R.id.crudMealmealIdField)	    
 		deleteMealSpinner = root.findViewById(R.id.crudMealSpinner)
 
-		model.allMealMealIds.observe( viewLifecycleOwner, androidx.lifecycle.Observer { Mealid ->
-					Mealid.let {
-						allMealmealIds = Mealid
+		model.allMealMealIds.observe( viewLifecycleOwner, androidx.lifecycle.Observer { mealId ->
+					mealId.let {
+						allMealmealIds = mealId
 						val deleteMealAdapter =
 						ArrayAdapter(myContext, android.R.layout.simple_spinner_item, allMealmealIds)
 						deleteMealAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
