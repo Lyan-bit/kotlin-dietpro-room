@@ -1,4 +1,4 @@
-package com.example.dietpro;
+package com.example.cloudbreastcancer.viewModel;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
