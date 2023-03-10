@@ -1,6 +1,5 @@
 package com.example.dietpro
 
-import com.example.dietpro.MealEntity
 import kotlinx.coroutines.flow.Flow
 
 interface MealRepository {
