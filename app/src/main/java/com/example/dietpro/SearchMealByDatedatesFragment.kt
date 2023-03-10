@@ -64,9 +64,9 @@ class SearchMealByDatedatesFragment : Fragment(), View.OnClickListener, AdapterV
 		datesTextField = root.findViewById(R.id.searchMealByDateField)	    
 		searchMealByDateSpinner = root.findViewById(R.id.searchMealByDateSpinner)
 		
-		model.allMealDatess.observe( viewLifecycleOwner, androidx.lifecycle.Observer { Mealdates ->
-					Mealdates.let {
-						allMealdatess = Mealdates
+		model.allMealDatess.observe( viewLifecycleOwner, androidx.lifecycle.Observer { mealDates ->
+					mealDates.let {
+						allMealdatess = mealDates
 						val searchMealByDateAdapter =
 						ArrayAdapter(myContext, android.R.layout.simple_spinner_item, allMealdatess)
 						searchMealByDateAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
