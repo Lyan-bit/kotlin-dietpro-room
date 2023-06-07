@@ -162,7 +162,7 @@ class ModelFacade private constructor(context: Context) {
     }
 
     fun findTotalConsumedCaloriesByDate(meals: ArrayList<Meal>, user: User, dates: String): Double {
-        var result = 0.0
+        var result : Double
         var totalConsumedCalories: Double
         totalConsumedCalories  = 0.0
         for (meal in meals) {
@@ -177,7 +177,7 @@ class ModelFacade private constructor(context: Context) {
     }
 
     fun findTargetCalories(user: User): Double {
-        var result = 0.0
+        var result : Double
         user.targetCalories  = user.calculateTargetCalories()
         persistUser (user)
         result  = user.targetCalories
@@ -185,7 +185,7 @@ class ModelFacade private constructor(context: Context) {
     }
 
     fun findBMR(user: User): Double {
-        var result = 0.0
+        var result : Double
         user.bmr  = user.calculateBMR()
         persistUser (user)
         result  = user.bmr
@@ -193,7 +193,7 @@ class ModelFacade private constructor(context: Context) {
     }
 
     fun caloriesProgress(user: User): Double {
-        var result = 0.0
+        var result : Double
         var progress: Double
         progress  = (user.totalConsumedCalories / user.targetCalories) * 100
         persistUser (user)
