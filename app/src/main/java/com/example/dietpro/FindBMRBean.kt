@@ -29,7 +29,7 @@ fun isFindBMRError(): Boolean {
         }
         
 
-	    return errors.size > 0
+	    return errors.isNotEmpty()
 	}
 
     fun errors(): String {
