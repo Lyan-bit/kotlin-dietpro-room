@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.view.LayoutInflater
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import java.lang.Exception
 import java.util.*
 
@@ -16,9 +17,9 @@ class CreateProfileUserFragment : Fragment(), View.OnClickListener {
 	private lateinit var root: View
 	private lateinit var myContext: Context
 	private lateinit var model: ModelFacade
-	
+
 	private lateinit var userBean: UserBean
-	
+
 	private lateinit var userNameTextField: EditText
 	private var userNameData = ""
 	private lateinit var genderTextField: EditText
@@ -32,74 +33,74 @@ class CreateProfileUserFragment : Fragment(), View.OnClickListener {
 	private lateinit var activityLevelTextField: EditText
 	private var activityLevelData = ""
 	private lateinit var targetCaloriesTextView: TextView
-		private var targetCaloriesData = ""
+	private var targetCaloriesData = ""
 	private lateinit var totalConsumedCaloriesTextView: TextView
-		private var totalConsumedCaloriesData = ""
+	private var totalConsumedCaloriesData = ""
 	private lateinit var bmrTextView: TextView
-		private var bmrData = ""
+	private var bmrData = ""
 
-    private lateinit var createUserButton: Button
+	private lateinit var createUserButton: Button
 	private lateinit var cancelUserButton: Button
 
-		  		
-    companion object {
-        fun newInstance(c: Context): CreateProfileUserFragment {
-            val fragment = CreateProfileUserFragment()
-            val args = Bundle()
-            fragment.arguments = args
-            fragment.myContext = c
-            return fragment
-        }
-    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+	companion object {
+		fun newInstance(c: Context): CreateProfileUserFragment {
+			val fragment = CreateProfileUserFragment()
+			val args = Bundle()
+			fragment.arguments = args
+			fragment.myContext = c
+			return fragment
+		}
+	}
 
-    override fun onResume() {
-        super.onResume()
-    }
+	override fun onCreate(savedInstanceState: Bundle?) {
+		super.onCreate(savedInstanceState)
+	}
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+	override fun onResume() {
+		super.onResume()
+	}
+
+	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 		root = inflater.inflate(R.layout.createprofileuser_layout, container, false)
-        model = ModelFacade.getInstance(myContext)
+		model = ModelFacade.getInstance(myContext)
 
-				userNameTextField = root.findViewById(R.id.createUseruserNameField)
+		userNameTextField = root.findViewById(R.id.createUseruserNameField)
 		genderTextField = root.findViewById(R.id.createUsergenderField)
 		heightsTextField = root.findViewById(R.id.createUserheightsField)
 		weightsTextField = root.findViewById(R.id.createUserweightsField)
 		ageTextField = root.findViewById(R.id.createUserageField)
 		activityLevelTextField = root.findViewById(R.id.createUseractivityLevelField)
-	targetCaloriesTextView = root.findViewById(R.id.createUsertargetCaloriesView)
-	totalConsumedCaloriesTextView = root.findViewById(R.id.createUsertotalConsumedCaloriesView)
-	bmrTextView = root.findViewById(R.id.createUserbmrView)
+		targetCaloriesTextView = root.findViewById(R.id.createUsertargetCaloriesView)
+		totalConsumedCaloriesTextView = root.findViewById(R.id.createUsertotalConsumedCaloriesView)
+		bmrTextView = root.findViewById(R.id.createUserbmrView)
 
 		createUserButton = root.findViewById(R.id.createUserOK)
 		createUserButton.setOnClickListener(this)
 
 		cancelUserButton = root.findViewById(R.id.createUserCancel)
 		cancelUserButton.setOnClickListener(this)
-		
-            val user = model.getUser()
 
-            if (user != null) {
-						userNameTextField.setText(user.getUserName().toString())
-			genderTextField.setText(user.getGender().toString())
-			heightsTextField.setText(user.getHeights().toString())
-			weightsTextField.setText(user.getWeights().toString())
-			ageTextField.setText(user.getAge().toString())
-			activityLevelTextField.setText(user.getActivityLevel().toString())
-	targetCaloriesTextView.text = user.getTargetCalories().toString()
-	totalConsumedCaloriesTextView.text = user.getTotalConsumedCalories().toString()
-	bmrTextView.text = user.getBmr().toString()
-	
+		val user = model.getUser()
+
+		if (user != null) {
+			userNameTextField.setText(user.userName.toString())
+			genderTextField.setText(user.gender.toString())
+			heightsTextField.setText(user.heights.toString())
+			weightsTextField.setText(user.weights.toString())
+			ageTextField.setText(user.age.toString())
+			activityLevelTextField.setText(user.activityLevel.toString())
+			targetCaloriesTextView.text = user.targetCalories.toString()
+			totalConsumedCaloriesTextView.text = user.totalConsumedCalories.toString()
+			bmrTextView.text = user.bmr.toString()
+
 			createUserButton.setText("Edit")
-			
-	            	
-     	  }
-      
-      userBean = UserBean(myContext)
-	  return root
+
+
+		}
+
+		userBean = UserBean(myContext)
+		return root
 	}
 
 	override fun onClick(v: View?) {
@@ -107,7 +108,7 @@ class CreateProfileUserFragment : Fragment(), View.OnClickListener {
 		try {
 			imm.hideSoftInputFromWindow(v?.windowToken, 0)
 		} catch (e: Exception) {
-			 e.message
+			e.message
 		}
 		when (v?.id) {
 			R.id.createUserOK-> {
@@ -133,19 +134,21 @@ class CreateProfileUserFragment : Fragment(), View.OnClickListener {
 		activityLevelData = activityLevelTextField.text.toString()
 		userBean.setActivityLevel(activityLevelData)
 		targetCaloriesData = targetCaloriesTextView.text.toString()
-			userBean.setTargetCalories(targetCaloriesData)
+		userBean.setTargetCalories(targetCaloriesData)
 		totalConsumedCaloriesData = totalConsumedCaloriesTextView.text.toString()
-			userBean.setTotalConsumedCalories(totalConsumedCaloriesData)
+		userBean.setTotalConsumedCalories(totalConsumedCaloriesData)
 		bmrData = bmrTextView.text.toString()
-			userBean.setBmr(bmrData)
+		userBean.setBmr(bmrData)
 
-			if (userBean.isCreateUserError()) {
-				Log.w(javaClass.name, userBean.errors())
-				Toast.makeText(myContext, "Errors: " + userBean.errors(), Toast.LENGTH_LONG).show()
-			} else {
-					userBean.createUser()
-					Toast.makeText(myContext, "User created!", Toast.LENGTH_LONG).show()
+		if (userBean.isCreateUserError()) {
+			Log.w(javaClass.name, userBean.errors())
+			Toast.makeText(myContext, "Errors: " + userBean.errors(), Toast.LENGTH_LONG).show()
+		} else {
+			viewLifecycleOwner.lifecycleScope.launchWhenStarted  {
+				userBean.createUser()
+				Toast.makeText(myContext, "User created!", Toast.LENGTH_LONG).show()
 			}
+		}
 	}
 
 	private fun createUserCancel () {
@@ -160,6 +163,6 @@ class CreateProfileUserFragment : Fragment(), View.OnClickListener {
 		totalConsumedCaloriesTextView.text = ""
 		bmrTextView.text = ""
 	}
-	
-		
+
+
 }
